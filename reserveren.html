@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reserveren - Food Rescue Box</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            🥕 Food Rescue Box
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="informatie.html">Meer informatie</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="reservering">
+
+            <h1>📦 Reserveer je Food Rescue Box</h1>
+
+            <p>
+                Vul hieronder je gegevens in om een box te reserveren.
+            </p>
+
+            <form id="reserveringsForm">
+
+                <label for="naam">Naam</label>
+
+                <input type="text" id="naam" placeholder="Vul je naam in" required>
+
+
+                <label for="email">E-mailadres</label>
+
+                <input type="email" id="email" placeholder="Vul je e-mailadres in" required>
+
+
+                <label for="box">Kies een box</label>
+
+                <select id="box" required>
+
+                    <option value="">-- Kies een box --</option>
+
+                    <option value="Box #001">
+                        Box #001 - Fruit & groenten
+                    </option>
+
+                    <option value="Box #002">
+                        Box #002 - Brood & bakkerijproducten
+                    </option>
+
+                    <option value="Box #003">
+                        Box #003 - Groenten & overige producten
+                    </option>
+
+                </select>
+
+
+                <button type="submit">
+                    📦 Reservering plaatsen
+                </button>
+
+            </form>
+
+
+            <!-- Bevestiging -->
+            <div id="bevestiging" class="bevestiging">
+
+                <h2>✅ Reservering gelukt!</h2>
+
+                <p id="bedankt"></p>
+
+                <p>
+                    Bewaar deze code goed. Je hebt hem nodig
+                    om de Food Rescue Box te openen.
+                </p>
+
+                <div class="code" id="toegangscode">
+                    0000
+                </div>
+
+                <p>
+                    🔐 Jouw persoonlijke toegangscode
+                </p>
+
+                <a href="index.html" class="knop">
+                    ← Terug naar home
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>Food Rescue Box</p>
+
+        <p>SDG 2 – Geen honger 🌱</p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

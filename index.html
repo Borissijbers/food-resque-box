@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Food Rescue Box</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Bovenkant van de website -->
+    <header>
+        <div class="logo">
+            🥕 Food Rescue Box
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="informatie.html">Meer informatie</a>
+        </nav>
+    </header>
+
+
+    <!-- Welkomstgedeelte -->
+    <main>
+
+        <section class="welkom">
+            <div class="welkom-tekst">
+
+                <h1>
+                    Red voedsel.<br>
+                    Help mensen.<br>
+                    Verspil minder.
+                </h1>
+
+                <p>
+                    Met de Food Rescue Box geven we overgebleven
+                    voedsel een tweede kans.
+                </p>
+
+                <div class="knoppen">
+
+                    <a href="#boxen" class="knop">
+                        📦 Bekijk beschikbare boxen
+                    </a>
+
+                    <a href="informatie.html" class="knop knop-tweede">
+                        ℹ️ Hoe werkt het?
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- SDG gedeelte -->
+        <section class="sdg">
+
+            <h2>🌱 SDG 2 – Geen honger</h2>
+
+            <p>
+                Ons project sluit aan bij Sustainable Development Goal 2:
+                <strong>Geen honger.</strong>
+            </p>
+
+            <p>
+                Door goed voedsel te redden en beschikbaar te maken,
+                willen we voedselverspilling verminderen en mensen
+                helpen die het voedsel goed kunnen gebruiken.
+            </p>
+
+        </section>
+
+
+        <!-- Drie voordelen -->
+        <section class="voordelen">
+
+            <div class="voordeel">
+                <div class="icoon">♻️</div>
+                <h3>Minder verspilling</h3>
+                <p>
+                    Goed voedsel wordt niet zomaar weggegooid.
+                </p>
+            </div>
+
+            <div class="voordeel">
+                <div class="icoon">📦</div>
+                <h3>Eenvoudig reserveren</h3>
+                <p>
+                    Bekijk een beschikbare box en reserveer deze.
+                </p>
+            </div>
+
+            <div class="voordeel">
+                <div class="icoon">🔢</div>
+                <h3>Veilige toegang</h3>
+                <p>
+                    Met een persoonlijke code kun je de box openen.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- Beschikbare boxen -->
+        <section id="boxen" class="boxen">
+
+            <h2>📦 Beschikbare Food Rescue Boxen</h2>
+
+            <div class="box-lijst">
+
+                <div class="box">
+                    <h3>Box #001</h3>
+
+                    <p>🍎 Fruit & groenten</p>
+
+                    <p>
+                        Beschikbaar vandaag
+                    </p>
+
+                    <button onclick="reserveren('Box #001')">
+                        Reserveren
+                    </button>
+                </div>
+
+
+                <div class="box">
+                    <h3>Box #002</h3>
+
+                    <p>🥖 Brood & bakkerijproducten</p>
+
+                    <p>
+                        Beschikbaar vandaag
+                    </p>
+
+                    <button onclick="reserveren('Box #002')">
+                        Reserveren
+                    </button>
+                </div>
+
+
+                <div class="box">
+                    <h3>Box #003</h3>
+
+                    <p>🥕 Groenten & overige producten</p>
+
+                    <p>
+                        Beschikbaar vandaag
+                    </p>
+
+                    <button onclick="reserveren('Box #003')">
+                        Reserveren
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Onderaan -->
+    <footer>
+
+        <p>
+            Food Rescue Box
+        </p>
+
+        <p>
+            SDG 2 – Geen honger 🌱
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

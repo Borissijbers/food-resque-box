@@ -1,0 +1,362 @@
+/* Algemene instellingen */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f7f2;
+    color: #26332a;
+}
+
+
+/* Bovenste navigatie */
+
+header {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    text-decoration: none;
+    color: #26332a;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+
+/* Welkomstgedeelte */
+
+.welkom {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    padding: 60px 8%;
+
+    background-color: #dfead9;
+}
+
+.welkom-tekst {
+    max-width: 700px;
+}
+
+.welkom h1 {
+    font-size: 55px;
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+.welkom p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+
+/* Knoppen */
+
+.knoppen {
+    margin-top: 30px;
+}
+
+.knop {
+    display: inline-block;
+
+    background-color: #3f7d4a;
+    color: white;
+
+    padding: 15px 22px;
+    margin-right: 10px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.knop:hover {
+    background-color: #32643b;
+}
+
+.knop-tweede {
+    background-color: white;
+    color: #3f7d4a;
+}
+
+.knop-tweede:hover {
+    background-color: #eeeeee;
+}
+
+
+/* SDG gedeelte */
+
+.sdg {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 40px;
+
+    background-color: white;
+
+    border-radius: 15px;
+}
+
+.sdg h2 {
+    font-size: 30px;
+}
+
+.sdg p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+
+/* Voordelen */
+
+.voordelen {
+    max-width: 1100px;
+    margin: 50px auto;
+
+    display: flex;
+    gap: 25px;
+
+    padding: 0 20px;
+}
+
+.voordeel {
+    flex: 1;
+
+    background-color: white;
+
+    padding: 30px;
+
+    text-align: center;
+
+    border-radius: 15px;
+}
+
+.icoon {
+    font-size: 45px;
+}
+
+.voordeel h3 {
+    font-size: 22px;
+}
+
+.voordeel p {
+    line-height: 1.5;
+}
+
+
+/* Boxen */
+
+.boxen {
+    max-width: 1100px;
+    margin: 50px auto;
+
+    padding: 40px 20px;
+}
+
+.boxen h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 35px;
+}
+
+.box-lijst {
+    display: flex;
+    gap: 25px;
+}
+
+.box {
+    flex: 1;
+
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    text-align: center;
+}
+
+.box h3 {
+    font-size: 24px;
+}
+
+.box p {
+    line-height: 1.5;
+}
+
+.box button {
+    background-color: #3f7d4a;
+
+    color: white;
+
+    border: none;
+
+    padding: 13px 25px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.box button:hover {
+    background-color: #32643b;
+}
+
+
+/* Footer */
+
+footer {
+    background-color: #26332a;
+    color: white;
+
+    text-align: center;
+
+    padding: 30px;
+
+    margin-top: 50px;
+}
+
+
+/* Voor kleinere schermen */
+
+@media (max-width: 800px) {
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav a {
+        margin: 0 8px;
+    }
+
+    .welkom h1 {
+        font-size: 40px;
+    }
+
+    .voordelen {
+        flex-direction: column;
+    }
+
+    .box-lijst {
+        flex-direction: column;
+    }
+
+}
+
+/* Reserveringspagina */
+
+.reservering {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 40px;
+
+    background-color: white;
+
+    border-radius: 15px;
+}
+
+.reservering h1 {
+    font-size: 35px;
+}
+
+.reservering p {
+    line-height: 1.6;
+}
+
+
+/* Formulier */
+
+#reserveringsForm {
+    margin-top: 30px;
+}
+
+#reserveringsForm label {
+    display: block;
+
+    margin-top: 20px;
+    margin-bottom: 8px;
+
+    font-weight: bold;
+}
+
+#reserveringsForm input,
+#reserveringsForm select {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+#reserveringsForm button {
+    margin-top: 30px;
+
+    background-color: #3f7d4a;
+
+    color: white;
+
+    border: none;
+
+    padding: 15px 25px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+#reserveringsForm button:hover {
+    background-color: #32643b;
+}
+
+
+/* Bevestiging */
+
+.bevestiging {
+    display: none;
+
+    margin-top: 35px;
+
+    padding: 30px;
+
+    background-color: #dfead9;
+
+    border-radius: 15px;
+
+    text-align: center;
+}
+
+.code {
+    font-size: 48px;
+
+    font-weight: bold;
+
+    letter-spacing: 8px;
+
+    margin: 25px 0;
+}
