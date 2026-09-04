@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aanmelden - Food Rescue Box</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🥕 Food Rescue Box</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="informatie.html">Meer informatie</a>
+            <a href="faq.html">FAQ</a>
+            <a href="inloggen.html">Inloggen</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="login-section">
+
+            <div class="login-box">
+
+                <h1>📝 Account aanmaken</h1>
+
+                <p>
+                    Maak een account aan om Food Rescue Boxes te reserveren.
+                </p>
+
+                <form id="aanmeldForm">
+
+                    <label for="aanmeldNaam">Naam</label>
+
+                    <input type="text" id="aanmeldNaam" placeholder="Jouw naam" required>
+
+
+                    <label for="aanmeldEmail">E-mailadres</label>
+
+                    <input type="email" id="aanmeldEmail" placeholder="jouw@email.nl" required>
+
+
+                    <label for="aanmeldWachtwoord">Wachtwoord</label>
+
+                    <input type="password" id="aanmeldWachtwoord" placeholder="Minimaal 4 tekens" minlength="4"
+                        required>
+
+
+                    <label for="herhaalWachtwoord">
+                        Wachtwoord opnieuw
+                    </label>
+
+                    <input type="password" id="herhaalWachtwoord" placeholder="Herhaal je wachtwoord" minlength="4"
+                        required>
+
+
+                    <button type="submit">
+                        Account aanmaken
+                    </button>
+
+                </form>
+
+                <p id="aanmeldMelding"></p>
+
+                <p>
+                    Heb je al een account?
+                    <a href="inloggen.html">Inloggen</a>
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>© 2026 Food Rescue Box | SDG 2 - Geen honger</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mijn account - Food Rescue Box</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🥕 Food Rescue Box</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="informatie.html">Meer informatie</a>
+            <a href="faq.html">FAQ</a>
+            <a href="account.html">Mijn account</a>
+            <a href="inloggen.html">Inloggen</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="account-section">
+
+            <div class="account-box">
+
+                <h1>👋 Welkom terug!</h1>
+
+                <p>Dit is jouw persoonlijke Food Rescue Box-account.</p>
+
+
+                <div class="account-card">
+
+                    <h2>📦 Mijn reservering</h2>
+
+                    <p><strong>Box:</strong> <span id="accountBox">Geen reservering</span></p>
+                    <p><strong>Naam:</strong> <span id="accountNaam">-</span></p>
+                    <p><strong>E-mail:</strong> <span id="accountEmail">-</span></p>
+                    <p><strong>Status:</strong> ✅ Gereserveerd</p>
+                </div>
+
+
+                <div class="code-card">
+
+                    <h2>🔐 Mijn toegangscode</h2>
+
+                    <p>Gebruik deze code bij de Food Rescue Box:</p>
+
+                    <div class="grote-code" id="accountCode">
+                        ----
+                    </div>
+
+                    <p>
+                        Voer deze vier cijfers in op het keypad
+                        om de box te openen.
+                    </p>
+
+                </div>
+
+
+                <button onclick="uitloggen()">
+                    Uitloggen
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>© 2026 Food Rescue Box | SDG 2 - Geen honger</p>
+    </footer>
+    <script>
+        if (sessionStorage.getItem("ingelogd") !== "true") {
+            window.location.href = "inloggen.html";
+        }
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
