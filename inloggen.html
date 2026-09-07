@@ -31,19 +31,28 @@
 
             <div class="login-box">
 
-                <h1>👤 Inloggen</h1>
+                <h1>🔐 Inloggen</h1>
 
                 <p>
-                    Log in om je reserveringen en toegangscodes te bekijken.
+                    Log in om een Food Rescue Box te reserveren.
                 </p>
+
 
                 <form id="loginForm">
 
-                    <label for="email">E-mailadres</label>
+                    <label for="loginEmail">
+                        E-mailadres
+                    </label>
+
                     <input type="email" id="loginEmail" placeholder="jouw@email.nl" required>
 
-                    <label for="wachtwoord">Wachtwoord</label>
-                    <input type="password" id="loginWachtwoord" placeholder="Wachtwoord" required>
+
+                    <label for="loginWachtwoord">
+                        Wachtwoord
+                    </label>
+
+                    <input type="password" id="loginWachtwoord" placeholder="Jouw wachtwoord" required>
+
 
                     <button type="submit">
                         Inloggen
@@ -51,7 +60,10 @@
 
                 </form>
 
+
                 <p id="loginFout"></p>
+
+
                 <p>
                     Nog geen account?
                     <a href="aanmelden.html">Account aanmaken</a>
@@ -65,10 +77,21 @@
 
 
     <footer>
-        <p>© 2026 Food Rescue Box | SDG 2 - Geen honger</p>
+
+        <p>
+            © 2026 Food Rescue Box | SDG 2 - Geen honger
+        </p>
+
     </footer>
 
 
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Supabase instellingen -->
+    <script src="supabase.js"></script>
+
+    <!-- Onze JavaScript -->
     <script src="script.js"></script>
 
 </body>

@@ -4,54 +4,145 @@ function reserveren(box) {
         "reserveren.html?box=" + encodeURIComponent(box);
 
 }
+// ==================================================
+// RESERVERING OPSLAAN IN SUPABASE
+// ==================================================
 
-
-const formulier = document.getElementById("reserveringsForm");
+const formulier =
+    document.getElementById("reserveringsForm");
 
 if (formulier) {
 
-    // Controleer of de gebruiker is ingelogd
-    if (sessionStorage.getItem("ingelogd") !== "true") {
-        window.location.href = "inloggen.html";
+    async function controleerGebruiker() {
+
+        const {
+            data: { user }
+        } = await supabaseClient.auth.getUser();
+
+        if (!user) {
+            window.location.href = "inloggen.html";
+            return null;
+        }
+
+        return user;
     }
 
-    // Lees de gekozen box uit de URL
-    const parameters = new URLSearchParams(window.location.search);
-    const box = parameters.get("box");
+    const parameters =
+        new URLSearchParams(window.location.search);
 
-    // Toon de gekozen box
-    document.getElementById("gekozenBox").textContent =
-        box || "Geen box geselecteerd";
+    const boxNaam = parameters.get("box");
 
-    formulier.addEventListener("submit", function (event) {
+    const gekozenBox =
+        document.getElementById("gekozenBox");
 
-        event.preventDefault();
+    if (gekozenBox) {
+        gekozenBox.textContent =
+            boxNaam || "Geen box geselecteerd";
+    }
 
-        const naam = localStorage.getItem("naam");
+    formulier.addEventListener(
+        "submit",
+        async function (event) {
 
-        // Nieuwe toegangscode
-        const toegangscode =
-            Math.floor(1000 + Math.random() * 9000);
+            event.preventDefault();
 
-        // Nieuwe reservering opslaan
-        localStorage.setItem("reserveringBox", box);
-        localStorage.setItem("reserveringCode", toegangscode);
+            const user =
+                await controleerGebruiker();
 
-        // Bevestiging
-        document.getElementById("bedankt").textContent =
-            "Bedankt " + (naam || "gebruiker") +
-            "! Je hebt " + box + " gereserveerd.";
+            if (!user) return;
 
-        document.getElementById("toegangscode").textContent =
-            toegangscode;
+            if (!boxNaam) {
+                alert("Er is geen Food Rescue Box geselecteerd.");
+                return;
+            }
 
-        formulier.style.display = "none";
+            // Zoek de gekozen box op in Supabase
+            const {
+                data: box,
+                error: boxError
+            } = await supabaseClient
+                .from("boxen")
+                .select("id, naam")
+                .eq("naam", boxNaam)
+                .single();
 
-        document.getElementById("bevestiging").style.display = "block";
+            if (boxError || !box) {
 
-    });
+                console.error(
+                    "Box niet gevonden:",
+                    boxError
+                );
 
+                alert(
+                    "Deze Food Rescue Box kon niet worden gevonden."
+                );
+
+                return;
+            }
+
+            // Maak een willekeurige 4-cijferige toegangscode
+            const toegangscode =
+                Math.floor(
+                    1000 + Math.random() * 9000
+                ).toString();
+
+            // Sla reservering op in Supabase
+            const {
+                error: reserveringError
+            } = await supabaseClient
+                .from("reserveringen")
+                .insert({
+                    gebruiker_id: user.id,
+                    box_id: box.id,
+                    toegangscode: toegangscode
+                });
+
+            if (reserveringError) {
+
+                console.error(
+                    "Reserveringsfout:",
+                    reserveringError
+                );
+
+                alert(
+                    "De reservering kon niet worden opgeslagen."
+                );
+
+                return;
+            }
+
+            // Toon bevestiging
+            const bedankt =
+                document.getElementById("bedankt");
+
+            const code =
+                document.getElementById("toegangscode");
+
+            if (bedankt) {
+                bedankt.textContent =
+                    "Bedankt! Je hebt " +
+                    box.naam +
+                    " gereserveerd.";
+            }
+
+            if (code) {
+                code.textContent =
+                    toegangscode;
+            }
+
+            formulier.style.display = "none";
+
+            const bevestiging =
+                document.getElementById("bevestiging");
+
+            if (bevestiging) {
+                bevestiging.style.display = "block";
+            }
+        }
+    );
 }
+
+
 
 // FAQ openen en sluiten
 
@@ -75,40 +166,80 @@ faqVragen.forEach(function (vraag) {
     });
 
 });
-// Demo login
+// ==================================================
+// INLOGGEN MET SUPABASE AUTH
+// ==================================================
 
-const loginForm = document.getElementById("loginForm");
+const loginForm =
+    document.getElementById("loginForm");
 
 if (loginForm) {
 
-    loginForm.addEventListener("submit", function (event) {
+    loginForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const email = document.getElementById("loginEmail").value;
-        const wachtwoord = document.getElementById("loginWachtwoord").value;
+            const email =
+                document.getElementById(
+                    "loginEmail"
+                ).value;
 
-        const loginFout = document.getElementById("loginFout");
+            const wachtwoord =
+                document.getElementById(
+                    "loginWachtwoord"
+                ).value;
+
+            const loginFout =
+                document.getElementById(
+                    "loginFout"
+                );
 
 
-        // Demo account
+            const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
 
-        const opgeslagenEmail = localStorage.getItem("email");
-        const opgeslagenWachtwoord = localStorage.getItem("wachtwoord");
+                    email: email,
 
-        if (
-            email === opgeslagenEmail &&
-            wachtwoord === opgeslagenWachtwoord
-        ) {
-            sessionStorage.setItem("ingelogd", "true");
-            sessionStorage.setItem("ingelogdEmail", email);
-            window.location.href = "account.html";
-        } else {
-            loginFout.textContent =
-                "Onjuist e-mailadres of wachtwoord.";
+                    password: wachtwoord
+
+                });
+
+
+            if (error) {
+
+                console.error(
+                    "Inlogfout:",
+                    error
+                );
+
+                loginFout.textContent =
+                    "Onjuist e-mailadres of wachtwoord.";
+
+                return;
+
+            }
+
+
+            // Gebruiker is ingelogd
+            sessionStorage.setItem(
+                "ingelogd",
+                "true"
+            );
+
+            sessionStorage.setItem(
+                "ingelogdEmail",
+                data.user.email
+            );
+
+
+            // Naar accountpagina
+            window.location.href =
+                "account.html";
+
         }
-
-    });
+    );
 
 }
 // Uitloggen
@@ -122,76 +253,344 @@ function uitloggen() {
 }
 // Gegevens tonen op de accountpagina
 
-const accountCode = document.getElementById("accountCode");
+// ==================================================
+// ACCOUNTGEGEVENS UIT SUPABASE
+// ==================================================
 
-if (accountCode) {
+async function laadAccount() {
 
-    const opgeslagenNaam = localStorage.getItem("naam");
-    const opgeslagenEmail = localStorage.getItem("email");
-    const opgeslagenBox = localStorage.getItem("reserveringBox");
-    const opgeslagenCode = localStorage.getItem("reserveringCode");
+    const accountCode =
+        document.getElementById("accountCode");
+
+    if (!accountCode) return;
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        window.location.href = "inloggen.html";
+        return;
+    }
+
+    const naam =
+        user.user_metadata?.naam || "Gebruiker";
+
+    const email =
+        user.email || "-";
 
     document.getElementById("accountNaam").textContent =
-        opgeslagenNaam || "-";
+        naam;
 
     document.getElementById("accountEmail").textContent =
-        opgeslagenEmail || "-";
+        email;
+
+    const {
+        data: reserveringen,
+        error: reserveringError
+    } = await supabaseClient
+        .from("reserveringen")
+        .select(`
+            id,
+            toegangscode,
+            aangemaakt_op,
+            boxen (
+                id,
+                naam,
+                inhoud
+            )
+        `)
+        .eq("gebruiker_id", user.id)
+        .order("aangemaakt_op", {
+            ascending: false
+        })
+        .limit(1);
+
+    if (reserveringError) {
+
+        console.error(
+            "Fout bij laden reservering:",
+            reserveringError
+        );
+
+        document.getElementById("accountBox").textContent =
+            "Reservering kon niet worden geladen.";
+
+        accountCode.textContent = "----";
+
+        return;
+    }
+
+    const annuleerKnop =
+        document.getElementById("annuleerReservering");
+
+    if (!reserveringen || reserveringen.length === 0) {
+
+        document.getElementById("accountBox").textContent =
+            "Geen reservering";
+
+        accountCode.textContent =
+            "----";
+
+        if (annuleerKnop) {
+            annuleerKnop.style.display = "none";
+        }
+
+        return;
+    }
+
+    const reservering =
+        reserveringen[0];
 
     document.getElementById("accountBox").textContent =
-        opgeslagenBox || "Geen reservering";
+        reservering.boxen?.naam || "Onbekende box";
 
     accountCode.textContent =
-        opgeslagenCode || "----";
+        reservering.toegangscode;
+
+    if (annuleerKnop) {
+
+        annuleerKnop.style.display = "inline-block";
+
+        annuleerKnop.onclick =
+            function () {
+                annuleerReservering(reservering.id);
+            };
+    }
 }
+
+
+// ==================================================
+// RESERVERING ANNULEREN
+// ==================================================
+
+async function annuleerReservering(reserveringId) {
+
+    const bevestiging =
+        confirm(
+            "Weet je zeker dat je deze reservering wilt annuleren?"
+        );
+
+    if (!bevestiging) return;
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        window.location.href = "inloggen.html";
+        return;
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("reserveringen")
+        .delete()
+        .eq("id", reserveringId)
+        .eq("gebruiker_id", user.id);
+
+    if (error) {
+
+        console.error(
+            "Fout bij annuleren:",
+            error
+        );
+
+        document.getElementById(
+            "annuleerMelding"
+        ).textContent =
+            "❌ De reservering kon niet worden geannuleerd.";
+
+        return;
+    }
+
+    document.getElementById(
+        "annuleerMelding"
+    ).textContent =
+        "✅ Je reservering is geannuleerd.";
+
+    document.getElementById(
+        "accountBox"
+    ).textContent =
+        "Geen reservering";
+
+    document.getElementById(
+        "accountCode"
+    ).textContent =
+        "----";
+
+    const annuleerKnop =
+        document.getElementById(
+            "annuleerReservering"
+        );
+
+    if (annuleerKnop) {
+        annuleerKnop.style.display = "none";
+    }
+}
+
+laadAccount();
 // Aanmelden
 
-const aanmeldForm = document.getElementById("aanmeldForm");
+// ==================================================
+// AANMELDEN MET SUPABASE AUTH
+// ==================================================
+
+const aanmeldForm =
+    document.getElementById("aanmeldForm");
 
 if (aanmeldForm) {
 
-    aanmeldForm.addEventListener("submit", function (event) {
+    aanmeldForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const naam =
-            document.getElementById("aanmeldNaam").value;
+            const naam =
+                document.getElementById(
+                    "aanmeldNaam"
+                ).value.trim();
 
-        const email =
-            document.getElementById("aanmeldEmail").value;
+            const email =
+                document.getElementById(
+                    "aanmeldEmail"
+                ).value.trim();
 
-        const wachtwoord =
-            document.getElementById("aanmeldWachtwoord").value;
+            const wachtwoord =
+                document.getElementById(
+                    "aanmeldWachtwoord"
+                ).value;
 
-        const herhaalWachtwoord =
-            document.getElementById("herhaalWachtwoord").value;
+            const herhaalWachtwoord =
+                document.getElementById(
+                    "herhaalWachtwoord"
+                ).value;
 
-        const melding =
-            document.getElementById("aanmeldMelding");
+            const melding =
+                document.getElementById(
+                    "aanmeldMelding"
+                );
 
 
-        if (wachtwoord !== herhaalWachtwoord) {
+            // Controleer of de wachtwoorden hetzelfde zijn
+            if (wachtwoord !== herhaalWachtwoord) {
+
+                melding.textContent =
+                    "De wachtwoorden komen niet overeen.";
+
+                return;
+            }
+
+
+            // Account aanmaken in Supabase Auth
+            const { data, error } =
+                await supabaseClient.auth.signUp({
+
+                    email: email,
+
+                    password: wachtwoord,
+
+                    options: {
+                        data: {
+                            naam: naam
+                        }
+                    }
+
+                });
+
+
+            // Controleer op een fout
+            if (error) {
+
+                console.error(
+                    "Aanmeldfout:",
+                    error
+                );
+
+                melding.textContent =
+                    "Er ging iets mis: " +
+                    error.message;
+
+                return;
+            }
+
+
+            // Controleren of Supabase een gebruiker heeft aangemaakt
+            console.log(
+                "Nieuwe gebruiker:",
+                data.user
+            );
+
 
             melding.textContent =
-                "De wachtwoorden komen niet overeen.";
+                "Account aangemaakt! Je kunt nu inloggen.";
 
-            return;
+            aanmeldForm.reset();
+
         }
-
-
-        // Accountgegevens opslaan
-        localStorage.setItem("naam", naam);
-        localStorage.setItem("email", email);
-        localStorage.setItem("wachtwoord", wachtwoord);
-
-
-        melding.textContent =
-            "Account aangemaakt! Je wordt doorgestuurd naar de inlogpagina.";
-
-
-        setTimeout(function () {
-            window.location.href = "inloggen.html";
-        }, 1500);
-
-    });
+    );
 
 }
+async function laadBoxen() {
+
+    const boxLijst = document.getElementById("boxLijst");
+
+    // Alleen uitvoeren als de boxLijst op deze pagina bestaat
+    if (!boxLijst) {
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("boxen")
+        .select("*")
+        .eq("beschikbaar", true)
+        .order("id");
+
+    if (error) {
+        console.error("Fout bij laden van boxen:", error);
+
+        boxLijst.innerHTML =
+            "<p>❌ De boxen konden niet worden geladen.</p>";
+
+        return;
+    }
+
+    console.log("Boxen uit Supabase:", data);
+
+    if (data.length === 0) {
+        boxLijst.innerHTML =
+            "<p>Er zijn momenteel geen beschikbare boxen.</p>";
+
+        return;
+    }
+
+    boxLijst.innerHTML = "";
+
+    data.forEach(function (box) {
+
+        const boxElement = document.createElement("div");
+        boxElement.className = "box";
+
+        boxElement.innerHTML = `
+            <h3>${box.naam}</h3>
+
+            <p>${box.inhoud}</p>
+
+            <p>
+                Beschikbaar vandaag
+            </p>
+
+            <button onclick="reserveren('${box.naam}')">
+                Reserveren
+            </button>
+        `;
+
+        boxLijst.appendChild(boxElement);
+    });
+}
+
+laadBoxen();
